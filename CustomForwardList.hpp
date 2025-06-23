@@ -41,12 +41,30 @@ public:
     copy_from_other(list);
     return *this;
   }
+  CustomForwardList(CustomForwardList&& list) {
+    this->m_head = list.m_head;
+    this->m_last = list.m_last;
+    this->size_ = list.size_;
+    list.m_head = nullptr;
+    list.m_last = nullptr;
+    list.size_ = 0;
+  }
+  CustomForwardList& operator=(CustomForwardList&& rhs) {
+    CustomForwardList tmp{std::move(rhs)};
+    return *this = tmp;
+  }
   ~CustomForwardList() override {
+    clear();
+  }
+  void clear() override {
     while (m_head != nullptr) {
       forward_list::Node<T>* temp = m_head;
       m_head = m_head->next;
       delete temp;
     }
+    size_ = 0;
+    m_head = nullptr;
+    m_last = nullptr;
   }
   void push_back(T value) override {
     forward_list::Node<T>* new_node = new forward_list::Node<T>{};
