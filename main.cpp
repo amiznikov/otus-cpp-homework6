@@ -61,7 +61,10 @@ int main() {
     CustomVector<int> custom_vector_2 = custom_vector;
     CustomVector<int> custom_vector_3;
     custom_vector_3 = custom_vector_2;
-    observe_functionality(custom_vector_3);
+    CustomVector<int> custom_vector_4(std::move(custom_vector_3));
+    CustomVector<int> custom_vector_5;
+    custom_vector_5 = std::move(custom_vector_4);
+    observe_functionality(custom_vector_5);
 
     std::cout << "List" << std::endl;
     CustomList<int> custom_list;
@@ -69,7 +72,10 @@ int main() {
     CustomList<int> custom_list_2 = custom_list;
     CustomList<int> custom_list_3;
     custom_list_3 = custom_list_2;
-    observe_functionality(custom_list_3);
+    CustomList<int> custom_list_4(std::move(custom_list_3));
+    CustomList<int> custom_list_5;
+    custom_list_5 = std::move(custom_list_4);
+    observe_functionality(custom_list_5);
 
     std::cout << "Forward List" << std::endl;
     CustomForwardList<int> custom_forward_list;
@@ -77,6 +83,9 @@ int main() {
     CustomForwardList<int> custom_forward_list_2 = custom_forward_list;
     CustomForwardList<int> custom_forward_list_3;
     custom_forward_list_3 = custom_forward_list_2;
-    observe_functionality(custom_forward_list_3);
+    CustomForwardList<int> custom_forward_list_4(std::move(custom_forward_list_3));
+    CustomForwardList<int> custom_forward_list_5;
+    custom_forward_list_5 = std::move(custom_forward_list_4);
+    observe_functionality(custom_forward_list_5);
     return 0;
 }

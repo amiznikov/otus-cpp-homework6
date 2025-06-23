@@ -46,8 +46,26 @@ public:
         copy_from_other(other);
         return *this;
     }
+    CustomVector(CustomVector&& other) {
+        region_ = other.region_;
+        size_ = other.size_;
+        capacity_ = other.capacity_;
+        reserved_index_ = other.reserved_index_;
+        other.region_ = nullptr;
+        other.size_ = 0;
+        other.capacity_ = 0;
+        other.reserved_index_ = 0.0;
+    }
+    CustomVector& operator=(CustomVector&& other) {
+        CustomVector tmp{std::move(other)};
+        return *this = tmp;
+    }
     ~CustomVector() override {
+        clear();
+    }
+    void clear() override {
         delete [] region_;
+        size_ = 0;
     }
     void push_back(T value) override {
             T* new_region = get_region();

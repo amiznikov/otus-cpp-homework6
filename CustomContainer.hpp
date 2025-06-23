@@ -19,4 +19,5 @@ class CustomContainer {
     virtual IteratorType end() = 0;
     virtual T operator[](size_t index) = 0;
     virtual size_t size() const = 0;
+    virtual void clear() = 0;
 };

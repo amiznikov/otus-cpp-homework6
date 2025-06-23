@@ -40,16 +40,34 @@ public:
   CustomList(const CustomList& list) {
     copy_from_other(list);
   }
+  CustomList(CustomList&& list) {
+    this->m_head = list.m_head;
+    this->m_last = list.m_last;
+    this->size_ = list.size_;
+    list.m_head = nullptr;
+    list.m_last = nullptr;
+    list.size_ = 0;
+  }
+  CustomList& operator=(CustomList&& rhs) {
+    CustomList tmp{std::move(rhs)};
+    return *this = tmp;
+  }
   CustomList& operator=(const CustomList& list) {
     copy_from_other(list);
     return *this;
   }
   ~CustomList() override {
+    clear();
+  }
+  void clear() override {
     while (m_last != nullptr) {
       list::Node<T>* temp = m_last;
       m_last = m_last->prev;
       delete temp;
     }
+    size_ = 0;
+    m_head = nullptr;
+    m_last = nullptr;
   }
   void push_back(T value) override {
     list::Node<T>* new_node = new list::Node<T>{};
