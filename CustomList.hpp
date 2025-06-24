@@ -37,6 +37,7 @@ template<typename T>
 class CustomList: public CustomContainer<T, list::Iterator<T>> {
 public:
   CustomList() = default;
+  CustomList(const double& reserved_index) {};
   CustomList(const CustomList& list) {
     copy_from_other(list);
   }

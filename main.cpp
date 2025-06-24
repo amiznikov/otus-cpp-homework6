@@ -18,7 +18,8 @@ void display_container(CustomContainer<int, IteratorType>& container) {
 template<typename IteratorType>
 void fill_container(CustomContainer<int, IteratorType>& container, const int min = 0, const int max = 10, const size_t size = 10) {
     for (int i = 0; i < size; ++i) {
-        container.push_back(rand() % (max - min + 1) + min);
+        int value = rand() % (max - min + 1) + min;
+        container.push_back(value);
     }
 }
 

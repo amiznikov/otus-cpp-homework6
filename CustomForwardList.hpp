@@ -34,6 +34,7 @@ template<typename T>
 class CustomForwardList: public CustomContainer<T, forward_list::Iterator<T>> {
 public:
   CustomForwardList() = default;
+  CustomForwardList(const double& reserved_index) {};
   CustomForwardList(const CustomForwardList& list) {
     copy_from_other(list);
   }

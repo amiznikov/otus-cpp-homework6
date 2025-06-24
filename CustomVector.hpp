@@ -64,8 +64,10 @@ public:
         clear();
     }
     void clear() override {
-        delete [] region_;
-        size_ = 0;
+        if (size_ > 0) {
+            delete [] region_;
+            size_ = 0;
+        }
     }
     void push_back(T value) override {
             T* new_region = get_region();
@@ -136,7 +138,7 @@ private:
     void resize_region(size_t& new_size) {
         T* new_region = new T[new_size];
         for (size_t i = 0; i < size_; ++i) {
-            new_region[i] = region_[i]; // копирование элементов
+            new_region[i] = region_[i];
         }
         update_region(new_region);
     }
