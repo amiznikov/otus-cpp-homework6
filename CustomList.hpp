@@ -38,7 +38,9 @@ class CustomList: public CustomContainer<T, list::Iterator<T>> {
 public:
   CustomList() = default;
   CustomList(const CustomList& list) {
-    copy_from_other(list);
+    if (&list != this) {
+      copy_from_other(list);
+    }
   }
   CustomList(CustomList&& list) {
     this->m_head = list.m_head;
@@ -53,7 +55,9 @@ public:
     return *this = tmp;
   }
   CustomList& operator=(const CustomList& list) {
-    copy_from_other(list);
+    if (&list != this) {
+      copy_from_other(list);
+    }
     return *this;
   }
   ~CustomList() override {

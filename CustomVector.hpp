@@ -1,6 +1,6 @@
 #pragma once
-#include <__filesystem/recursive_directory_iterator.h>
 
+#include <cmath>
 #include "./CustomContainer.hpp"
 
 namespace vector {
@@ -40,10 +40,14 @@ public:
         capacity_ = 1;
     };
     CustomVector(const CustomVector& other) {
-        copy_from_other(other);
+        if (this != &other) {
+            copy_from_other(other);
+        }
     }
     CustomVector& operator=(const CustomVector& other) {
-        copy_from_other(other);
+        if (this != other) {
+            copy_from_other(other);
+        }
         return *this;
     }
     CustomVector(CustomVector&& other) {
@@ -68,7 +72,7 @@ public:
         size_ = 0;
     }
     void push_back(T value) override {
-            T* new_region = get_region();
+            T* new_region = get_region(1);
             new_region[size_] = value;
             size_ += 1;
 
@@ -77,7 +81,7 @@ public:
         if (index > size_) {
             return;
         }
-        T* new_region = get_region();
+        T* new_region = get_region(1);
         for(int i = size_; i > index; i--) {
             new_region[i] = new_region[i - 1];
         }
@@ -88,15 +92,13 @@ public:
         if (index >= size_) {
             return;
         }
-        T* new_region = new T[size_ - 1];
-        size_t k = 0;
+
         for (size_t i = 0; i < size_; ++i) {
-            if (i != index) {
-                new_region[k] = region_[i];;
-                k++;
+            if (i > index) {
+                region_[i - 1] = region_[i];
             }
         }
-        update_region(new_region);
+        T* new_region = get_region(-1);
         size_ -= 1;
     }
     vector::Iterator<T> begin() override {
@@ -119,16 +121,16 @@ private:
     //вообще не уверен что я правильно поступаю, но что-то типо std::move для динамических массивов я не нашел( может плохо искал
     void update_region(T*& new_region) {
         delete [] region_;
-        region_ = new_region;
+        region_ = std::move(new_region);
     }
-    T*& get_region() {
+    T*& get_region(const int updated_count = 0) {
         if (reserved_index_ > 0.0) {
             if (size_ >= capacity_) {
                 capacity_ = ceil(size_ * reserved_index_);
                 resize_region(capacity_);
             }
         } else {
-            size_t new_size = size_ + 1;
+            size_t new_size = size_ + updated_count;
             resize_region(new_size);
         }
         return region_;

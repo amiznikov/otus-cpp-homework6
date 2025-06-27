@@ -35,10 +35,14 @@ class CustomForwardList: public CustomContainer<T, forward_list::Iterator<T>> {
 public:
   CustomForwardList() = default;
   CustomForwardList(const CustomForwardList& list) {
-    copy_from_other(list);
+    if (&list != this) {
+      copy_from_other(list);
+    }
   }
   CustomForwardList& operator=(const CustomForwardList& list) {
-    copy_from_other(list);
+    if (&list != this) {
+      copy_from_other(list);
+    }
     return *this;
   }
   CustomForwardList(CustomForwardList&& list) {

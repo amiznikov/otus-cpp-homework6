@@ -7,11 +7,6 @@ template<typename T, typename IteratorType = CustomIterator<T>>
 class CustomContainer {
   public:
     virtual ~CustomContainer() = default;
-    // struct Iterator {
-    //     virtual ~Iterator() = default;
-    //     virtual T& operator*() = 0;
-    //     virtual Iterator& operator++() = 0;
-    // };
     virtual void push_back(T val) = 0;
     virtual void insert(T val, size_t index) = 0;
     virtual void erase(size_t index) = 0;
